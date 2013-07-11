@@ -5,12 +5,12 @@ require 'alphabetical_paginate/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "alphabetical_paginate"
-  spec.version       = AlphabeticalPaginate::VERSION
+  spec.version       = "0.1.0"
   spec.authors       = ["lingz"]
   spec.email         = ["lz781@nyu.edu"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = "Alphabetical Pagination"
+  spec.summary       = "Pagination"
+  spec.homepage      = "http:google.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
