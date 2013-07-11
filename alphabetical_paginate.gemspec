@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["lz781@nyu.edu"]
   spec.description   = "Alphabetical Pagination"
   spec.summary       = "Pagination"
-  spec.homepage      = "http:google.com"
+  spec.homepage      = "http://google.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
