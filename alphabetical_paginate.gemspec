@@ -5,7 +5,7 @@ require 'alphabetical_paginate/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "alphabetical_paginate"
-  spec.version       = "0.1.3"
+  spec.version       = "0.1.4"
   spec.authors       = ["lingz"]
   spec.email         = ["lz781@nyu.edu"]
   spec.description   = "Alphabetical Pagination"
