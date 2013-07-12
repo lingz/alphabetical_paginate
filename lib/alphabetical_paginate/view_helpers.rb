@@ -1,7 +1,8 @@
 module AlphabeticalPaginate
   module ViewHelpers
     def alphabetical_paginate
-      "test"
+      output = javascript_include_tag 'alphabetical_paginate'
+      output
     end
   end
 end
