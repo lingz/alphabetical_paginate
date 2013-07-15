@@ -4,7 +4,7 @@ class Array
     params = {}
     availableLetters = {}
     if current_field == nil
-      current_field = this.sort[0].to_s[0]
+      current_field = self.sort[0].to_s[0]
     end
     self.each do |x|
       field_val = block_given? ? yield(x) : x.id.to_s
