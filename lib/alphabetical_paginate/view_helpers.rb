@@ -3,8 +3,6 @@ module AlphabeticalPaginate
     def alphabetical_paginate params, bootstrap=true
       output = javascript_include_tag 'alphabetical_paginate' 
       
-      links = "\n"
-
       params[:availableLetters].each do |l|
         links += '<li><a href="#" data-letter="' + l + '">' + l + "</a></li>\n"
       end
