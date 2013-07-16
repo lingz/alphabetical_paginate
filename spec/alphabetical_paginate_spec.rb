@@ -26,7 +26,7 @@ module AlphabeticalPaginate
         collection, params = @list.alpha_paginate("b")
         collection.to_s.should == 
           expectedCollection.to_s
-        params.to_s.should ==
+        params.to_s.should include
           expectedParams.to_s
       end
 
@@ -44,7 +44,7 @@ module AlphabeticalPaginate
         end
         collection.to_s.should == 
           expectedCollection.to_s
-        params.to_s.should ==
+        params.to_s.should include
           expectedParams.to_s
       end
     end
