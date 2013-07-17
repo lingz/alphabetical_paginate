@@ -8,7 +8,7 @@ module AlphabeticalPaginate
       if params[:paginate_all]
         range = ('a'..'z').to_a
         if params[:others]
-          range += ["#"]
+          range += ["*"]
         end
         if params[:enumerate] && params[:numbers]
           range = (0..9).to_a.map{|x| x.to_s} + range
@@ -26,7 +26,7 @@ module AlphabeticalPaginate
         end
       else
         params[:availableLetters] -= (1..9).to_a.map{|x| x.to_s} if !params[:numbers]
-        params[:availableLetters] -= ["#"] if !params[:others]
+        params[:availableLetters] -= ["*"] if !params[:others]
         
         params[:availableLetters].each do |l|
           if l == params[:currentField]

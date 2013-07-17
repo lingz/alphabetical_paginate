@@ -13,7 +13,7 @@ class Array
     end
     self.each do |x|
       field_val = block_given? ? yield(x).to_s : x.id.to_s
-      field_letter = field_val.force_encoding(Encoding::ASCII_8BIT)[0]
+      field_letter = field_val.force_encoding[0]
       case field_letter
         when /[a-z]/ 
           availableLetters[field_letter] = true if !availableLetters.has_key? field_letter
@@ -27,8 +27,8 @@ class Array
             output << x if current_field == "0"
           end
         else
-          availableLetters['#'] = true if !availableLetters.has_key? 'other'
-          output << x if current_field == "#"
+          availableLetters['*'] = true if !availableLetters.has_key? 'other'
+          output << x if current_field == "*"
       end
     end
     params[:availableLetters] = availableLetters.collect{|k,v| k.to_s}

@@ -118,6 +118,7 @@ module AlphabeticalPaginate
 					end
 
 				end
+
 				it "should display all when asked" do
 					index, params = @list.alpha_paginate(nil, {paginate_all: true,
 																							 enumerate: true}){|x| x.word}
