@@ -19,20 +19,22 @@ module AlphabeticalPaginate
           if l == params[:currentField]
             links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
           elsif params[:availableLetters].include? l
-            links += '<li><a href="#" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li><a href="?letter=" data-letter="' + l + '">' + l + "</a></li>"
           else
-            links += '<li class="disabled"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li class="disabled"><a href="?letter=" data-letter="' + l + '">' + l + "</a></li>"
           end
         end
       else
+        params[:availableLetters].sort!
+        params[:availableLetters] = params[:availableLetters][1..-1] + ["*"] if params[:availableLetters][0] == "*"
         params[:availableLetters] -= (1..9).to_a.map{|x| x.to_s} if !params[:numbers]
         params[:availableLetters] -= ["*"] if !params[:others]
         
         params[:availableLetters].each do |l|
           if l == params[:currentField]
-            links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li class="active"><a href="?letter=" data-letter="' + l + '">' + l + "</a></li>"
           else
-            links += '<li><a href="#" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>"
           end
         end
       end
@@ -45,9 +47,7 @@ module AlphabeticalPaginate
       end
       pagination +=
         "<ul>" +
-        "<li><a id='paginate-prev' href='#'>Prev</a></li>" +
         links +
-        "<li><a id='paginate-next' href='#'>Next</a></li>" +
         "</ul" +
         "</div>"
 
