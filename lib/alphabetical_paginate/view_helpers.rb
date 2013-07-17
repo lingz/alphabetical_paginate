@@ -3,6 +3,7 @@ module AlphabeticalPaginate
     def alphabetical_paginate params
 
       output = javascript_include_tag 'alphabetical_paginate' 
+      links = ""
       
       if params[:paginate_all]
         range = ('a'..'z').to_a
@@ -14,16 +15,17 @@ module AlphabeticalPaginate
         elsif params[:numbers]
           range = ["0"] + range
         end
-        range.each.do |l|
+        range.each do |l|
           if l == params[:currentField]
             links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>\n"
-          elsif params[:availableLetters].contains? l
+          elsif params[:availableLetters].include? l
             links += '<li><a href="#" data-letter="' + l + '">' + l + "</a></li>\n"
           else
             links += '<li class="disabled"><a href="#" data-letter="' + l + '">' + l + "</a></li>\n"
           end
+        end
       else
-        params[:availableLetters] -= (0..9).to_a.map{|x| x.to_s} if !params[:numbers]
+        params[:availableLetters] -= (1..9).to_a.map{|x| x.to_s} if !params[:numbers]
         params[:availableLetters] -= ["#"] if !params[:others]
         
         params[:availableLetters].each do |l|
@@ -43,8 +45,8 @@ module AlphabeticalPaginate
       end
       pagination +=
         "<ul>\n" +
-        "<li><a id='paginate-prev' href='#'>Prev</a></li>"
-        "%s" % links +
+        "<li><a id='paginate-prev' href='#'>Prev</a></li>" +
+        links +
         "</ul\n" +
         "<li><a id='paginate-next' href='#'>Next</a></li>" +
         "</div>"

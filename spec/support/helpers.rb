@@ -1,3 +1,4 @@
 module Helpers
-  include ActionView::Base
+  include ActionView::Base::ViewHelpers
+  include ActionView::Helpers::AssetTagHelper
 end
