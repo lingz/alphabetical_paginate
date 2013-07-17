@@ -1,7 +1,9 @@
+console.log('asd');
 $(function() {
   var text = "<span class='loading'>Loading...</span>"
 
-  $(".pagination a").live("click", function(e) {
+  $(".pagination a").on("click", function(e) {
+      e.preventDefault();
       if (/letter/.test(location.href)){
         jQuery.getScript(location.href.replace(/letter\=./, "letter=" + this.data("letter")));
         history.pushState(null, document.title, location.href.replace(/letter\=./, "letter=" + this.data("letter")));
@@ -11,10 +13,9 @@ $(function() {
         history.pushState(null, document.title, location.href + "?letter=" + this.data("letter"));
       }
       jQuery(".pagination").html(text);
-      e.preventDefault();
   });
 
-  $(window).bind("popstate", function() {
+  $(window).on("popstate", function() {
       $.getScript(location.href);
       $(".pagination").html(text);
   });
