@@ -17,11 +17,11 @@ module AlphabeticalPaginate
         end
         range.each do |l|
           if l == params[:currentField]
-            links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>\n"
+            links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
           elsif params[:availableLetters].include? l
-            links += '<li><a href="#" data-letter="' + l + '">' + l + "</a></li>\n"
+            links += '<li><a href="#" data-letter="' + l + '">' + l + "</a></li>"
           else
-            links += '<li class="disabled"><a href="#" data-letter="' + l + '">' + l + "</a></li>\n"
+            links += '<li class="disabled"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
           end
         end
       else
@@ -30,25 +30,25 @@ module AlphabeticalPaginate
         
         params[:availableLetters].each do |l|
           if l == params[:currentField]
-            links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>\n"
+            links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
           else
-            links += '<li><a href="#" data-letter="' + l + '">' + l + "</a></li>\n"
+            links += '<li><a href="#" data-letter="' + l + '">' + l + "</a></li>"
           end
         end
       end
       
 
       if params[:pagination_class] != "none"
-        pagination = '<div class="pagination %s">\n' % params[:pagination_class]
+        pagination = '<div class="pagination %s">' % params[:pagination_class]
       else
-        pagination = '<div class="pagination">\n'
+        pagination = '<div class="pagination">'
       end
       pagination +=
-        "<ul>\n" +
+        "<ul>" +
         "<li><a id='paginate-prev' href='#'>Prev</a></li>" +
         links +
-        "</ul\n" +
         "<li><a id='paginate-next' href='#'>Next</a></li>" +
+        "</ul" +
         "</div>"
 
       output += pagination.html_safe

@@ -13,7 +13,7 @@ class Array
     end
     self.each do |x|
       field_val = block_given? ? yield(x).to_s : x.id.to_s
-      field_letter = field_val.force_encoding[0]
+      field_letter = field_val[0]
       case field_letter
         when /[a-z]/ 
           availableLetters[field_letter] = true if !availableLetters.has_key? field_letter
