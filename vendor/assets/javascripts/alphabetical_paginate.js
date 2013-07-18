@@ -2,7 +2,7 @@ $(function() {
     var img = "<img src='/images/loader.gif' class='loading'/>"
     var text = "<span class='loading'>Page is loading...</span>"
 
-    $(".pagination #alpha a").live("click", function(e) {
+    $(".pagination#alpha a").live("click", function(e) {
         var url = location.href,
             letter = $(this).data("letter");
         if (/letter/.test(url)){
