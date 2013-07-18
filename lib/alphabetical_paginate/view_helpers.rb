@@ -49,7 +49,7 @@ module AlphabeticalPaginate
         "<ul>" +
         links +
         "</ul>" +
-        "</div> sfsdfa"
+        "</div>"
 
       output += pagination.html_safe
     end
