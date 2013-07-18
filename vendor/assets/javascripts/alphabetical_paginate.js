@@ -1,8 +1,7 @@
 $(function() {
     var img = "<img src='/images/loader.gif' class='loading'/>"
-    var text = "<span class='loading'>Page is loading...</span>"
 
-    $(".pagination#alpha a").live("click", function(e) {
+    $(".pagination#alpha a").on("click", function(e) {
         var url = location.href,
             letter = $(this).data("letter");
         if (/letter/.test(url)){
@@ -18,7 +17,7 @@ $(function() {
         }
         console.log(url);
         jQuery.getScript(url);
-        jQuery(".pagination").html(text+img);
+        jQuery(".pagination").html(img);
         history.pushState(null, document.title, url);
         e.preventDefault();
     });
@@ -26,7 +25,7 @@ $(function() {
     // Let navigate the browser throught the AJAX history
     $(window).bind("popstate", function() {
         $.getScript(location.href);
-        $(".pagination").html(text+img);
+        $(".pagination").html(img);
     });
 
 });
