@@ -80,12 +80,12 @@ The available options are as follows:
 
 Key | Value | Default |Description
 --- | --- | --- | ---
-`:enumerate` | `Boolean` | false | Whether you want the number field collapsed (all numbers go into `0`) or separate (`0`, `1`, `2`...).
-`:default_field` | `String` | "a" | Which field you want the page to default to on first load (`"0"`, `"a"`. `"*"`).
+`:enumerate` | `Boolean` | `false` | Whether you want the number field collapsed (all numbers go into `0`) or separate (`0`, `1`, `2`...).
+`:default_field` | `String` | `"a"` | Which field you want the page to default to on first load (`"0"`, `"a"`. `"*"`).
 `:paginate_all` | `Boolean` | `false` | Whether you want empty fields to still render in pagination.
 `:numbers` | `Boolean` | `true` | Whether you want numbers to be included in the pagination at all, either collapsed, or expanded (depending on `:enumerate`).
 `:others` | `Boolean` | `true` | Whether you want all other characters (non alphanumeric) to be included in the pagination at all.
-`:pagination_class` | `String` | "pagination-centered" | All the classes you would like to add to the rendered pagination selector div (for CSS purposes).
+`:pagination_class` | `String` | `"pagination-centered"` | All the classes you would like to add to the rendered pagination selector div (for CSS purposes).
 
 ## Advanced Pagination
 
@@ -108,6 +108,12 @@ class UsersController < ApplicationController
 end
 ```
 
+## Rails 3.0 and Lower
+
+The gem makes use of the Asset Pipeline, introduced in Rails 3.1. It still works with lower versions of Rails, however, you need to copy the assets over manually.
+
+Copy the contents of `vendor/assets/javascripts` of this repo into the `public/javascripts` of your app
+Copy the contents of `vendor/assets/images` of this repo into the `public/images` of your app
 
 ## Support
 
