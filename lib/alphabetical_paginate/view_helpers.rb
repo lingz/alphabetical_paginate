@@ -39,9 +39,9 @@ module AlphabeticalPaginate
       
 
       if params[:pagination_class] != "none"
-        pagination = '<div class="pagination %s">' % params[:pagination_class]
+        pagination = '<div class="pagination %s" id="alpha">' % params[:pagination_class]
       else
-        pagination = '<div class="pagination">'
+        pagination = '<div class="pagination" id="alpha">'
       end
       pagination +=
         "<ul>" +
