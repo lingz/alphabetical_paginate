@@ -6,7 +6,7 @@ By default, it works with [Bootstrap Pagination](http://twitter.github.io/bootst
 
 AlphabeticalPaginate incorporates efficient partial page rerendering techniques and loading animations.
 
-Some code was inspired by [will_paginate](https://github.com/mislav/will_paginate)
+Some code was inspired by [will_paginate](https://github.com/mislav/will_paginate).
 
 
 ## Installation
@@ -28,7 +28,7 @@ You simply need to call alpha_paginate on the desired table (i.e. `User.all.alph
 
 Also, it takes a block in which you can specify the field you wish to paginate by (it can even be in another table). It returns the paginated subset of the collection, sorted by the pagination field. The method returns two values (the paginated array subsection, and an options hash), both of which must be stored as class variables. 
 
-An example of its use is as such:
+*An example of its use is as such:*
 ```ruby
 #app/controllers/users_controllers.rb
 class UsersController < ApplicationController
@@ -42,13 +42,11 @@ end
 ```
 
 ### View
-You need to call `alphabetical_paginate` that we just generated in the controller (i.e `<%= alphabetical_paginate @alphaParams %>`) in the view, whereever you would like to render the pagination selector div. 
-
-You also **must wrap the content you want paginated in a div with id="pagination_table"**.
+You need to call `alphabetical_paginate` that we just generated in the controller (i.e `<%= alphabetical_paginate @alphaParams %>`) in the view, whereever you would like to render the pagination selector div. You also **must wrap the content you want paginated in a div with id="pagination_table"**.
 
 You can place as many `<%= alphabetical_paginate @alphaParams =>` as you wish on the page, if you want to render multiple pagination divs.
 
-An example is like such:
+*An example is as such:*
 ```html
 #app/controllers/users/index.html.erb
 
@@ -82,12 +80,12 @@ The available options are as follows:
 
 Key | Value | Default |Description
 --- | --- | --- | ---
-:enumerate | Boolean | false | Whether you want the number field collapsed (all numbers go into 0) or separate (0, 1, 2, 3 .. 9).
-:default_field | String | "a" | Which field you want the page to default to on first load ("0", "a". "*").
-:paginate_all | Boolean | false | Whether you want empty fields to still render in pagination.
-:numbers | Boolean | true | Whether you want numbers to be included in the pagination at all, either collapsed, or expanded (depending on :enumerate).
-:others | Boolean | true | Whether you want all other characters (non alphanumeric) to be included in the pagination at all.
-:pagination_class | String | "pagination-centered" | All the classes you would like to add to the rendered pagination selector div (for CSS purposes).
+`:enumerate` | `Boolean` | false | Whether you want the number field collapsed (all numbers go into `0`) or separate (`0`, `1`, `2`...).
+`:default_field` | `String` | "a" | Which field you want the page to default to on first load (`"0"`, `"a"`. `"*"`).
+`:paginate_all` | `Boolean` | `false` | Whether you want empty fields to still render in pagination.
+`:numbers` | `Boolean` | `true` | Whether you want numbers to be included in the pagination at all, either collapsed, or expanded (depending on `:enumerate`).
+`:others` | `Boolean` | `true` | Whether you want all other characters (non alphanumeric) to be included in the pagination at all.
+`:pagination_class` | `String` | "pagination-centered" | All the classes you would like to add to the rendered pagination selector div (for CSS purposes).
 
 ## Advanced Pagination
 
