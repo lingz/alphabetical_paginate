@@ -113,8 +113,8 @@ end
 The gem makes use of the Asset Pipeline, introduced in Rails 3.1. It still works with lower versions of Rails, however, you need to copy the assets over manually.
 
 Copy the contents of `vendor/assets/javascripts` of this repo into the `public/javascripts` of your app
-and also copy the contents of `vendor/assets/images` of this repo into the `public/images` of your app
+and also copy the contents of `vendor/assets/images` of this repo into the `public/images` of your app.
 
-## Support
+# Support
 
 Please feel free to reach out and contact if you find the gem useful at all! Also, feel free to report / fix any bugs or add features.
