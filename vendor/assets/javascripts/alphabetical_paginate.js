@@ -1,8 +1,9 @@
 $(function() {
+    var once = false;
 
-    var img = "<img src='/images/aloader.gif' class='loading'/>"
+    var img = "<img src='/images/loader.gif' class='loading'/>"
     
-    $(".pagination#alpha a").on("click", function(e) {
+    $(document).on("click", ".pagination#alpha a", function(e) {
         var url = location.href,
             letter = $(this).data("letter");
         if (/letter/.test(url)){
@@ -16,17 +17,29 @@ $(function() {
             url += "?letter=" + letter 
           }
         }
-        $('#pagination_table').load(url + " #pagination_table");
-        jQuery(".pagination").html(img);
+        $(".pagination").html(img);
+        //$.load(url + " #pagination_table");
+        $.get(url, function(result) {
+          $(".pagination").html($(".pagination", result));
+          $("#pagination_table").html($("#pagination_table", result));
+        });
         history.pushState(null, document.title, url);
         e.preventDefault();
     });
 
-    // Let navigate the browser throught the AJAX history
-});
 
+ // let navigate the browser throught the ajax history
 $(window).bind("popstate", function() {
-      $('#pagination_table').load(location.href + " #pagination_table");
+  if (once) {
+    $(".pagination").html(img);
+    $.get(location.href, function(result) {
+      $(".pagination").html($(".pagination", result));
+        $("#pagination_table").html($("#pagination_table", result));
+      });
+    } else {
+      once = true;
+    }
 });
-   
 
+
+});
