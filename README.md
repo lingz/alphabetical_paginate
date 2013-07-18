@@ -81,7 +81,7 @@ end
 The available options are as follows:
 
 Key | Value | Default |Description
--- | -- | -- | --- 
+--- | --- | --- | ---
 :enumerate | Boolean | false | Whether you want the number field collapsed (all numbers go into 0) or separate (0, 1, 2, 3 .. 9).
 :default_field | String | "a" | Which field you want the page to default to on first load ("0", "a". "*").
 :paginate_all | Boolean | false | Whether you want empty fields to still render in pagination.
