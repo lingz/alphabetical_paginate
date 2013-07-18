@@ -33,6 +33,6 @@ class Array
     end
     params[:availableLetters] = availableLetters.collect{|k,v| k.to_s}
     params[:currentField] = current_field
-    return output, params
+    return output.sort, params
   end
 end
