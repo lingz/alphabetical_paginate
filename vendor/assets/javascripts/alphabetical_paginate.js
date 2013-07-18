@@ -23,8 +23,10 @@ $(function() {
     });
 
     // Let navigate the browser throught the AJAX history
-    $(window).bind("popstate", function() {
-        $('#pagination_table').load(location.href + " #pagination_table");
-    });
-   
 });
+
+$(window).bind("popstate", function() {
+      $('#pagination_table').load(location.href + " #pagination_table");
+});
+   
+
