@@ -41,6 +41,15 @@ class UsersController < ApplicationController
 end
 ```
 
+You may want to sort by the same field that you paginated by (cannot be done in gem due to technical limitaitons).
+
+```ruby
+  def index
+    @users, @alphaParams = User.all.alpha_paginate(params[:letter]){|user| user.name}
+    @users.sort_by_name!
+  end
+```
+
 ### View
 You need to call `alphabetical_paginate` that we just generated in the controller (i.e `<%= alphabetical_paginate @alphaParams %>`) in the view, whereever you would like to render the pagination selector div. You also **must wrap the content you want paginated in a div with id="pagination_table"**.
 
