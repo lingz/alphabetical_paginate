@@ -25,6 +25,7 @@ module AlphabeticalPaginate
           raise "You need a mysql database to ues db_mode with alphabetical_paginate"
         end
         params[:paginate_all] = true
+        params[:availableLetters] = []
 
         case current_field[0].downcase
         when /[a-z]/

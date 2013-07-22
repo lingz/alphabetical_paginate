@@ -18,10 +18,10 @@ module AlphabeticalPaginate
         range.each do |l|
           if l == params[:currentField]
             links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
-          elsif params[:availableLetters].include? l
-            links += '<li><a href="?letter=" data-letter="' + l + '">' + l + "</a></li>"
+          elsif params[:db_mode] or params[:availableLetters].include? l
+            links += '<li><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>"
           else
-            links += '<li class="disabled"><a href="?letter=" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li class="disabled"><a href="?letter="' + l + ' data-letter="' + l + '">' + l + "</a></li>"
           end
         end
       else
