@@ -1,4 +1,5 @@
 require 'alphabetical_paginate/view_helpers'
+require 'alphabetical_paginate/controller_helper'
 module AlphabeticalPaginate
   class Railtie < Rails::Railtie
     initializer "alphabetical_paginate.view_helpers" do
