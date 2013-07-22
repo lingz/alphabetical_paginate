@@ -33,6 +33,7 @@ class Array
     end
     params[:availableLetters] = availableLetters.collect{|k,v| k.to_s}
     params[:currentField] = current_field
+    output.sort! {|x, y| yield(x).to_s <=> yield(y).to_s }
     return output, params
   end
 end

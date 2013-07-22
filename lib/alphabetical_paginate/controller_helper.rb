@@ -14,13 +14,6 @@ module AlphabeticalPaginate
         params[:db_mode] ||= false
         params[:field] ||= "id"
 
-        if params[:db_mode]
-          if !ActiveRecord::Base.connection.adapter_name.downcase.include? "mysql"
-            raise "You need a mysql database to ues db_mode with alphabetical_paginate"
-          end
-          params[:paginate_all] = true
-        end
-
         output = []
 
         if current_field == nil
@@ -28,6 +21,11 @@ module AlphabeticalPaginate
         end
 
         if params[:db_mode]
+          if !ActiveRecord::Base.connection.adapter_name.downcase.include? "mysql"
+            raise "You need a mysql database to ues db_mode with alphabetical_paginate"
+          end
+          params[:paginate_all] = true
+
           case field_letter
           when /[a-z]/
             output = self.where("%s REGEXP '^%s.*'" % [params[:db_field], current_field])
@@ -40,6 +38,7 @@ module AlphabeticalPaginate
           else
             output = self.where("%s REGEXP '^[a-z0-9].*'" % [params[:db_field], current_field])
           end
+          output.sort! {|x, y| x.send(params[:db_field]) <=> y.send(params[:db_field])}
         else
           availableLetters = {}
           self.find_each({batch_size: params[:batch_size]}) do |x|
@@ -63,6 +62,7 @@ module AlphabeticalPaginate
             end
           end
           params[:availableLetters] = availableLetters.collect{|k,v| k.to_s}
+          output.sort! {|x,y| yield(x).to_s <=> yield(y).to_s }
         end
         params[:currentField] = current_field
         return output, params
