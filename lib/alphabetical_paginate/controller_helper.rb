@@ -26,7 +26,7 @@ module AlphabeticalPaginate
         end
         params[:paginate_all] = true
 
-        case field_letter
+        case current_field[0].downcase
         when /[a-z]/
           output = self.where("%s REGEXP '^%s.*'" % [params[:db_field], current_field])
         when /[0-9]/
