@@ -1,6 +1,7 @@
 module AlphabeticalPaginate
   module ControllerHelpers
     extend ActiveSupport::Concern
+
     def alpha_paginate current_field, params = {enumerate:false, default_field: "a", 
                                                   paginate_all: false, numbers: true,
                                                   others: true, pagination_class: "pagination-centered",
@@ -8,9 +9,10 @@ module AlphabeticalPaginate
                                                   db_field: "id"}
       params[:paginate_all] ||= false
       params[:numbers] = true if !params.has_key? :numbers
-      params[:others] = true if !params.has_key? :numbers
+      params[:others] = true if !params.has_key? :others
       params[:pagination_class] ||= "pagination-centered"
       params[:batch_size] ||= 500
+      params[:default_field] ||= "a"
       params[:db_mode] ||= false
       params[:field] ||= "id"
 
@@ -37,7 +39,7 @@ module AlphabeticalPaginate
             output = self.where("%s REGEXP '^[0-9].*'" % [params[:db_field], current_field])
           end
         else
-          output = self.where("%s REGEXP '^[a-z0-9].*'" % [params[:db_field], current_field])
+          output = self.where("%s REGEXP '^[^a-z0-9].*'" % [params[:db_field], current_field])
         end
         output.sort! {|x, y| x.send(params[:db_field]) <=> y.send(params[:db_field])}
       else

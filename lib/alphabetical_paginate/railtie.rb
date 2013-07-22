@@ -7,6 +7,7 @@ module AlphabeticalPaginate
     end
     initializer "alphabetical_paginate.controller_helpers" do
       ActiveRecord::Relation.send :include, ControllerHelpers
+      ActiveRecord::Base.send :include, ControllerHelpers
     end
   end
 end

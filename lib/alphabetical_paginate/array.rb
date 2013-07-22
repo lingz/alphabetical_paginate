@@ -4,7 +4,8 @@ class Array
                                                 others: true, pagination_class: "pagination-centered"}
     params[:paginate_all] ||= false
     params[:numbers] = true if !params.has_key? :numbers
-    params[:others] = true if !params.has_key? :numbers
+    params[:others] = true if !params.has_key? :others
+    params[:default_field] ||= "a"
     params[:pagination_class] ||= "pagination-centered"
     output = []
     availableLetters = {}
