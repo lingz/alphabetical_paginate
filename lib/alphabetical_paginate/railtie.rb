@@ -4,5 +4,8 @@ module AlphabeticalPaginate
     initializer "alphabetical_paginate.view_helpers" do
       ActionView::Base.send :include, ViewHelpers
     end
+    initializer "alphabetical_paginate.controller_helpers" do
+      ActiveRecord::Relation.send :include, ControllerHelpers
+    end
   end
 end
