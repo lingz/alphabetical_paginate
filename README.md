@@ -147,6 +147,13 @@ The gem makes use of the Asset Pipeline, introduced in Rails 3.1. It still works
 Copy the contents of `vendor/assets/javascripts` of this repo into the `public/javascripts` of your app
 and also copy the contents of `vendor/assets/images` of this repo into the `public/images` of your app.
 
+Also, there is one line in vendor/assets/javascripts that needs to be changed for Rails 3.0 support. That is, renaming the image path:
+```javascript
+  var img = "<img src='/assets/aloader.gif' class='loading'/>";
+  // RAILS 3.0 USERS -> Please delete the above line and uncomment the bottom line
+  //var img = "<img src='/images/aloader.gif' class='loading'/>";
+```
+
 # Support
 
 Please feel free to reach out and contact if you find the gem useful at all! Also, feel free to report / fix any bugs or add features.
