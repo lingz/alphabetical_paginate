@@ -1,9 +1,11 @@
 module AlphabeticalPaginate
   module ViewHelpers
-    def alphabetical_paginate params
-
-      output = javascript_include_tag 'alphabetical_paginate' 
+    def alphabetical_paginate params, options = { js: true }
+      output = ""
       links = ""
+      options[:js] = true unless options.has_key? :js
+
+      output += javascript_include_tag 'alphabetical_paginate' if options[:js]
       
       if params[:paginate_all]
         range = ('a'..'z').to_a
@@ -21,7 +23,7 @@ module AlphabeticalPaginate
           elsif params[:db_mode] or params[:availableLetters].include? l
             links += '<li><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>"
           else
-            links += '<li class="disabled"><a href="?letter="' + l + ' data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li class="disabled"><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>"
           end
         end
       else
@@ -32,7 +34,7 @@ module AlphabeticalPaginate
         
         params[:availableLetters].each do |l|
           if l == params[:currentField]
-            links += '<li class="active"><a href="?letter=" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
           else
             links += '<li><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>"
           end
@@ -51,7 +53,8 @@ module AlphabeticalPaginate
         "</ul>" +
         "</div>"
 
-      output += pagination.html_safe
+      output += pagination
+      output.html_safe
     end
   end
 end
