@@ -1,7 +1,7 @@
 $(function() {
   var once = false;
 
-  var img = "<img src='/images/aloader.gif' class='loading'/>";
+  var img = "<img src='/assets/aloader.gif' class='loading'/>";
   
   $(document).on("click", ".pagination#alpha a", function(e) {
       var url = location.href,
