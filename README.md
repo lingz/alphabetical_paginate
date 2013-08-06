@@ -33,7 +33,7 @@ Also, it takes a block in which you can specify the field you wish to paginate b
 It has a :db_mode parameter which tells the gem to perform low level SQL queries, which are both faster, and take up less memory. This is only supported for MySQL databases at this point.
 
 *An example of its use is as such:*
-## If you are using MySQL / MySQL2
+#### If you are using MySQL / MySQL2
 ```ruby
 #app/controllers/users_controllers.rb
 class UsersController < ApplicationController
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
 end
 ```
 
-## If you are not using MySQL
+#### If you are not using MySQL
 ```ruby
 #app/controllers/users_controllers.rb
 class UsersController < ApplicationController
@@ -57,14 +57,6 @@ class UsersController < ApplicationController
   
   ...
 end
-```
-
-You may want to sort by the same field that you paginated by (cannot be done in gem due to technical limitaitons).
-
-```ruby
-  def index
-    @users, @alphaParams = User.all.alpha_paginate(params[:letter]){|user| user.name}
-  end
 ```
 
 ### View
