@@ -13,8 +13,9 @@ module AlphabeticalPaginate
         if params[:enumerate] && params[:numbers]
           range = (0..9).to_a.map{|x| x.to_s} + range
         elsif params[:numbers]
-          range = ["0"] + range
+          range = ["0-9"] + range
         end
+        range.unshift "all"
         range.each do |l|
           if l == params[:currentField]
             links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
@@ -27,6 +28,7 @@ module AlphabeticalPaginate
       else
         params[:availableLetters].sort!
         params[:availableLetters] = params[:availableLetters][1..-1] + ["*"] if params[:availableLetters][0] == "*"
+        params[:availableLetters].unshift "all"
         params[:availableLetters] -= (1..9).to_a.map{|x| x.to_s} if !params[:numbers]
         params[:availableLetters] -= ["*"] if !params[:others]
         
