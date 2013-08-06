@@ -1,11 +1,10 @@
 module AlphabeticalPaginate
   module ViewHelpers
-    def alphabetical_paginate params, options = { js: true }
+    def alphabetical_paginate params
       output = ""
       links = ""
-      options[:js] = true unless options.has_key? :js
 
-      output += javascript_include_tag 'alphabetical_paginate' if options[:js]
+      output += javascript_include_tag 'alphabetical_paginate' if params[:js]
       
       if params[:paginate_all]
         range = ('a'..'z').to_a
@@ -34,7 +33,7 @@ module AlphabeticalPaginate
         
         params[:availableLetters].each do |l|
           if l == params[:currentField]
-            links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li class="active"><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>'
           else
             links += '<li><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>"
           end

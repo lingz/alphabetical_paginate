@@ -1,10 +1,12 @@
 # AlphabeticalPaginate
 
-A lightweight and highly customizable pagination gem for Ruby on Rails that generates alphabetic pagination categories from collection arrays. It allows you to select the field you want to paginate on. 
+A lightweight and highly customizable pagination gem for Ruby on Rails that generates alphabetic pagination categories from Collections or Arrays. It allows you to select the field you want to paginate on. 
 
 By default, it works with [Bootstrap Pagination](http://twitter.github.io/bootstrap/components.html#pagination) CSS and it is also fully compatible with the [will_paginate](https://github.com/mislav/will_paginate) in case you want to use both. 
 
-AlphabeticalPaginate incorporates efficient partial page rerendering techniques and loading animations.
+AlphabeticalPaginate incorporates efficient javascript partial page rerendering techniques and loading animations but also is non-obtrusive and falls back to standard href links.
+
+It has two modes - if you're working with MySQL, it allows for low level database regex queries. Otherwise, it uses a buffered search to build an array. You should be able to easily modify the gem to work with other SQL databases (please make a pull-request if you do!).
 
 Some code was inspired by [will_paginate](https://github.com/mislav/will_paginate).
 
@@ -28,7 +30,23 @@ You simply need to call alpha_paginate on the desired table (i.e. `User.all.alph
 
 Also, it takes a block in which you can specify the field you wish to paginate by (it can even be in another table). It returns the paginated subset of the collection, sorted by the pagination field. The method returns two values (the paginated array subsection, and an options hash), both of which must be stored as class variables. 
 
+It has a :db_mode parameter which tells the gem to perform low level SQL queries, which are both faster, and take up less memory. This is only supported for MySQL databases at this point.
+
 *An example of its use is as such:*
+## If you are using MySQL / MySQL2
+```ruby
+#app/controllers/users_controllers.rb
+class UsersController < ApplicationController
+
+  def index
+    @users, @alphaParams = User.all.alpha_paginate(params[:letter], {db_mode: true, db_field: "name"})
+  end
+  
+  ...
+end
+```
+
+## If you are not using MySQL
 ```ruby
 #app/controllers/users_controllers.rb
 class UsersController < ApplicationController
@@ -46,7 +64,6 @@ You may want to sort by the same field that you paginated by (cannot be done in 
 ```ruby
   def index
     @users, @alphaParams = User.all.alpha_paginate(params[:letter]){|user| user.name}
-    @users.sort_by_name!
   end
 ```
 
@@ -95,10 +112,11 @@ Key | Value | Default |Description
 `:numbers` | `Boolean` | `true` | Whether you want numbers to be included in the pagination at all, either collapsed, or expanded (depending on `:enumerate`).
 `:others` | `Boolean` | `true` | Whether you want all other characters (non alphanumeric) to be included in the pagination at all.
 `:pagination_class` | `String` | `"pagination-centered"` | All the classes you would like to add to the rendered pagination selector div (for CSS purposes).
+`:js` | `Boolean` | `"true"` | If you want the javascript with page-rerendering to be enabled.
 
 ## Advanced Pagination
 
-You can select a complex field to paginate by. Be careful, as this may be slow in large data sets.
+You can select a complex field to paginate by. Be careful, as this may be slow in large data sets. This only works if db_mode is disabled.
 
 For instance, the following example paginates posts by the author's group's name (jumping across two tables).
 It still returns the Post objects despite whatever field you use to paginate / sort it by (It still auto-sorts by the pagination field).
@@ -115,6 +133,11 @@ class UsersController < ApplicationController
   
   ...
 end
+```
+
+Also you can paginate by any array generally, it doesn't have to be a collection.
+```ruby
+  @friends, @params = friends.alpha_paginate(params[:letter]){|x| x}
 ```
 
 ## Rails 3.0 and Lower
