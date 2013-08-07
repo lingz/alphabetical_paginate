@@ -92,6 +92,7 @@ Key | Value | Default |Description
 `:enumerate` | `Boolean` | `false` | Whether you want the number field collapsed (all numbers go into `0`) or separate (`0`, `1`, `2`...).
 `:default_field` | `String` | `"a"` | Which field you want the page to default to on first load (`"0"`, `"a"`. `"*"`).
 `:paginate_all` | `Boolean` | `false` | Whether you want empty fields to still render in pagination.
+`:include_all` | `Boolean` | `true` | Whether you want `all` selector to be included in the pagination.
 `:numbers` | `Boolean` | `true` | Whether you want numbers to be included in the pagination at all, either collapsed, or expanded (depending on `:enumerate`).
 `:others` | `Boolean` | `true` | Whether you want all other characters (non alphanumeric) to be included in the pagination at all.
 `:pagination_class` | `String` | `"pagination-centered"` | All the classes you would like to add to the rendered pagination selector div (for CSS purposes).
