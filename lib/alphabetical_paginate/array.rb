@@ -1,18 +1,19 @@
 class Array
-  def alpha_paginate current_field, params = {enumerate:false, default_field: "all", 
-                                                paginate_all: false, numbers: true,
+  def alpha_paginate current_field, params = {enumerate:false, default_field: "a", 
+                                                paginate_all: false, numbers: true, include_all: true,
                                                 others: true, pagination_class: "pagination-centered"}
     params[:paginate_all] ||= false
+    params[:include_all] = true if !params.has_key? :include_all
     params[:numbers] = true if !params.has_key? :numbers
     params[:others] = true if !params.has_key? :others
-    params[:default_field] ||= "all"
+    params[:default_field] ||= params[:include_all] ? "all" : "a"
     params[:pagination_class] ||= "pagination-centered"
     output = []
     availableLetters = {}
     if current_field == nil
       current_field = params[:default_field]
     end
-    all = current_field.downcase == "all"
+    all = params[:include_all] && current_field.downcase == "all"
     self.each do |x|
       field_val = block_given? ? yield(x).to_s : x.id.to_s
       field_letter = field_val[0].downcase
@@ -39,3 +40,4 @@ class Array
     return output, params
   end
 end
+

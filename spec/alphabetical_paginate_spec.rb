@@ -130,7 +130,7 @@ module AlphabeticalPaginate
 				end
 
         it "should include 'all' and '0-9' fields" do
-					index, params = @list.alpha_paginate(nil)
+					index, params = @list.alpha_paginate(nil, { include_all: true })
 					pagination = alphabetical_paginate(params)
 					(["all", "0-9"].map{|x|
 						'data-letter="%s"'%x}).each do |x|
