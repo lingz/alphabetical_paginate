@@ -8,10 +8,12 @@ module AlphabeticalPaginate
                                                   paginate_all: false, numbers: true,
                                                   others: true, pagination_class: "pagination-centered",
                                                   batch_size: 500, db_mode: false, 
-                                                  db_field: "id"}
+                                                  db_field: "id",
+                                                  js: true}
       params[:paginate_all] ||= false
       params[:numbers] = true if !params.has_key? :numbers
       params[:others] = true if !params.has_key? :others
+      params[:js] = true if !params.has_key? :js
       params[:pagination_class] ||= "pagination-centered"
       params[:batch_size] ||= 500
       params[:default_field] ||= "a"

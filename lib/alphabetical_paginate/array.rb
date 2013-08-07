@@ -1,10 +1,12 @@
 class Array
   def alpha_paginate current_field, params = {enumerate:false, default_field: "a", 
                                                 paginate_all: false, numbers: true,
-                                                others: true, pagination_class: "pagination-centered"}
+                                                others: true, pagination_class: "pagination-centered",
+                                                js: true}
     params[:paginate_all] ||= false
     params[:numbers] = true if !params.has_key? :numbers
     params[:others] = true if !params.has_key? :others
+    params[:js] = true if !params.has_key? :js
     params[:default_field] ||= "a"
     params[:pagination_class] ||= "pagination-centered"
     output = []
