@@ -83,7 +83,7 @@ module AlphabeticalPaginate
 				it "should include a numbers and others field" do
 					index, params = @list.alpha_paginate(nil)
 					pagination = alphabetical_paginate(params)
-					(["#"] + ["0"] + ("a".."z").to_a.map{|x|
+					(["*"] + ["0-9"] + ("a".."z").to_a.map{|x|
 						'data-letter="%s"'%x}).each do |x|
 						pagination.should include x
 					end
@@ -92,7 +92,7 @@ module AlphabeticalPaginate
 				it "should default all values when necessary" do
 					index, params = @list.alpha_paginate(nil, {})
 					pagination = alphabetical_paginate(params)
-					(["#"] + ["0"] + ("a".."z").to_a.map{|x|
+					(["*"] + ["0-9"] + ("a".."z").to_a.map{|x|
 						'data-letter="%s"'%x}).each do |x|
 						pagination.should include x
 					end
@@ -105,8 +105,8 @@ module AlphabeticalPaginate
 						'data-letter="%s"'%x}).each do |x|
 						pagination.should include x
 					end
-					pagination.should_not include 'data-letter="z"', 'data-letter="#"',
-						'data-letter="0"'
+					pagination.should_not include 'data-letter="z"', 'data-letter="*"',
+						'data-letter="0-9"'
 				end
 
 				it "should enumerate when asked" do
@@ -123,15 +123,20 @@ module AlphabeticalPaginate
 					index, params = @list.alpha_paginate(nil, {paginate_all: true,
 																							 enumerate: true}){|x| x.word}
 					pagination = alphabetical_paginate(params)
-					(["#"] + (0..9).to_a.map{|x| x.to_s} + ("a".."z").to_a.map{|x|
+					(["*"] + (0..9).to_a.map{|x| x.to_s} + ("a".."z").to_a.map{|x|
 						'data-letter="%s"'%x}).each do |x|
 						pagination.should include x
 					end
 				end
 
-
-
+        it "should include 'all' and '0-9' fields" do
+					index, params = @list.alpha_paginate(nil, { include_all: true })
+					pagination = alphabetical_paginate(params)
+					(["all", "0-9"].map{|x|
+						'data-letter="%s"'%x}).each do |x|
+						pagination.should include x
+					end
+				end
       end
     end
-
 end
