@@ -35,7 +35,7 @@ module AlphabeticalPaginate
         
         params[:availableLetters].each do |l|
           if l == params[:currentField]
-            links += '<li class="active"><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>'
+            links += '<li class="active"><a href="?letter=' + l + '" data-letter="' + l + '">' + l + '</a></li>'
           else
             links += '<li><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>"
           end
