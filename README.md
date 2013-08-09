@@ -26,7 +26,7 @@ And then execute:
 Basic Pagination is as simple as adding a few lines to the controller and the view.
 
 ### Controller
-You simply need to call alpha_paginate on the desired table (i.e. `User.all.alpha_paginate`). This method takes two parameters, the first always being `params[:letter]` and the second being an optional options hash. 
+You simply need to call alpha_paginate on the desired Active Record Collection (i.e. `User.alpha_paginate`) or on any array (`User.all.alpha_paginate`). This method takes two parameters, the first always being `params[:letter]` and the second being an optional options hash. 
 
 Also, it takes a block in which you can specify the field you wish to paginate by (it can even be in another table). It returns the paginated subset of the collection, sorted by the pagination field. The method returns two values (the paginated array subsection, and an options hash), both of which must be stored as class variables. 
 
@@ -39,7 +39,7 @@ It has a :db_mode parameter which tells the gem to perform low level SQL queries
 class UsersController < ApplicationController
 
   def index
-    @users, @alphaParams = User.all.alpha_paginate(params[:letter], {db_mode: true, db_field: "name"})
+    @users, @alphaParams = User.alpha_paginate(params[:letter], {db_mode: true, db_field: "name"})
   end
   
   ...
