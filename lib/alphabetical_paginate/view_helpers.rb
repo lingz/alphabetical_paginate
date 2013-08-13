@@ -1,3 +1,4 @@
+# coding: utf-8
 module AlphabeticalPaginate
   module ViewHelpers
     def alphabetical_paginate params
@@ -7,7 +8,7 @@ module AlphabeticalPaginate
       output += javascript_include_tag 'alphabetical_paginate' if params[:js]
       
       if params[:paginate_all]
-        range = ('a'..'z').to_a
+        range = params[:language].letters_range
         if params[:others]
           range += ["*"]
         end
@@ -18,12 +19,13 @@ module AlphabeticalPaginate
         end
         range.unshift "all" if params[:include_all]
         range.each do |l|
+          value = params[:language].output_letter(l)
           if l == params[:currentField]
-            links += '<li class="active"><a href="#" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li class="active"><a href="#" data-letter="' + l + '">' + value + "</a></li>"
           elsif params[:db_mode] or params[:availableLetters].include? l
-            links += '<li><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li><a href="?letter=' + l + '" data-letter="' + l + '">' + value + "</a></li>"
           else
-            links += '<li class="disabled"><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li class="disabled"><a href="?letter=' + l + '" data-letter="' + l + '">' + value + "</a></li>"
           end
         end
       else
@@ -34,10 +36,11 @@ module AlphabeticalPaginate
         params[:availableLetters] -= ["*"] if !params[:others]
         
         params[:availableLetters].each do |l|
+          value = params[:language].output_letter(l)
           if l == params[:currentField]
-            links += '<li class="active"><a href="?letter=' + l + '" data-letter="' + l + '">' + l + '</a></li>'
+            links += '<li class="active"><a href="?letter=' + l + '" data-letter="' + l + '">' + value + '</a></li>'
           else
-            links += '<li><a href="?letter=' + l + '" data-letter="' + l + '">' + l + "</a></li>"
+            links += '<li><a href="?letter=' + l + '" data-letter="' + l + '">' + value + "</a></li>"
           end
         end
       end

@@ -108,6 +108,7 @@ Key | Value | Default |Description
 `:others` | `Boolean` | `true` | Whether you want all other characters (non alphanumeric) to be included in the pagination at all.
 `:pagination_class` | `String` | `"pagination-centered"` | All the classes you would like to add to the rendered pagination selector div (for CSS purposes).
 `:js` | `Boolean` | `"true"` | If you want the javascript with page-rerendering to be enabled.
+`:support_language` | `Symbol` | `:en` | If you want russian letters support set this value to `:ru` (only if `I18n.locale` in your application set to `:ru`).
 
 ## Advanced Pagination
 
