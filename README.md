@@ -8,6 +8,8 @@ AlphabeticalPaginate incorporates efficient javascript partial page rerendering 
 
 It has two modes - if you're working with MySQL, it allows for low level database regex queries. Otherwise, it uses a buffered search to build an array. You should be able to easily modify the gem to work with other SQL databases (please make a pull-request if you do!).
 
+We also now have Russian language support.
+
 Some code was inspired by [will_paginate](https://github.com/mislav/will_paginate).
 
 
