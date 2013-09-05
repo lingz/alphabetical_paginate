@@ -1,26 +1,28 @@
 # coding: utf-8
+require 'alphabetical_paginate'
 
 module AlphabeticalPaginate
   describe Language do
     context "English language" do
       before(:all) do
-        @language = AlphabeticalPaginate::Language.new(:en)
+        I18n.locale = :en
+        @language = AlphabeticalPaginate::Language.new(I18n.locale)
       end
 
       it "should return false on russian? method" do
         @language.russian?.should be_false
       end
 
-      it "should return /[a-z]/ regexp" do
-        @language.letters_regexp.should eq(/[a-z]/)
+      it "should return /[a-zA-Z]/ regexp" do
+        @language.letters_regexp.should eq(/[a-zA-Z]/)
       end
 
       it "should return array of english letters" do
-        @language.letters_range.should eq(("a".."z").to_a)
+        @language.letters_range.should eq(("A".."Z").to_a)
       end
 
-      it "should return english representation of 'all' field and other english letters (for view helper)" do
-        (["all"] + ("a".."z").to_a).map do |l|
+      it "should return english representation of 'All' field and other english letters (for view helper)" do
+        (["All"] + ("A".."Z").to_a).map do |l|
           @language.output_letter(l).should eq(l)
         end
       end
@@ -32,8 +34,9 @@ module AlphabeticalPaginate
 
     context "Russian language" do
       before(:all) do
-        @language = AlphabeticalPaginate::Language.new(:ru)
-        @russian_string = "абвгдежзиклмнопрстуфхцчшэюя"
+        I18n.locale = :ru
+        @language = AlphabeticalPaginate::Language.new(I18n.locale)
+        @russian_string = "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЭЮЯ"
         @russian_array = []
         @russian_string.each_char{ |x| @russian_array << x }
       end
@@ -42,21 +45,21 @@ module AlphabeticalPaginate
         @language.russian?.should be_true
       end
 
-      it "should return /[абвгдежзиклмнопрстуфхцчшэюя]/ regexp" do
-        @language.letters_regexp.should eq(/[#{@russian_string}]/)
+      it "should return /[а-яА-Я]/ regexp" do
+        @language.letters_regexp.should eq(/[а-яА-Я]/)
       end
 
       it "should return array of russian letters" do
         @language.letters_range.should eq(@russian_array)
       end
 
-      it "should return russian representation of 'all' field and other russian letters (for view helper)" do
-        (["все"] + @russian_array).map do |l|
+      it "should return russian representation of 'All' field and other russian letters (for view helper)" do
+        (["Все"] + @russian_array).map do |l|
           @language.output_letter(l).should eq(l)
         end
       end
 
-      it "should return russian representation of 'a' letter" do
+      it "should return russian representation of 'а' letter" do
         @language.default_letter.should eq("а")
       end
     end

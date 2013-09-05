@@ -28,7 +28,8 @@ module AlphabeticalPaginate
       if current_field == nil
         current_field = params[:default_field]
       end
-      all = params[:include_all] && current_field.downcase == "all"
+      current_field = current_field.mb_chars.downcase.to_s
+      all = params[:include_all] && current_field == "all"
 
       if params[:db_mode]
         if !ActiveRecord::Base.connection.adapter_name.downcase.include? "mysql"
@@ -40,7 +41,7 @@ module AlphabeticalPaginate
         if all
           output = self
         else
-          case current_field[0].mb_chars.downcase.to_s
+          case current_field
           when params[:language].letters_regexp
             output = self.where("LOWER(%s) REGEXP '^%s.*'" % [params[:db_field], current_field])
           when /[0-9]/
@@ -77,10 +78,10 @@ module AlphabeticalPaginate
               output << x if all || current_field == "*"
           end
         end
-        params[:availableLetters] = availableLetters.collect{|k,v| k.to_s}
+        params[:availableLetters] = availableLetters.collect{ |k,v| k.mb_chars.capitalize.to_s }
         output.sort! {|x, y| block_given? ? (yield(x).to_s <=> yield(y).to_s) : (x.id.to_s <=> y.id.to_s) }
       end
-      params[:currentField] = current_field
+      params[:currentField] = current_field.mb_chars.capitalize.to_s
       return output, params
     end
   end
