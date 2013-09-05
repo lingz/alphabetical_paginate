@@ -12,34 +12,32 @@ module AlphabeticalPaginate
     end
 
     def letters_regexp
-      russian? ? /[#{russian_letters}]/ : /[a-z]/
-    end
-
-    def letters_range
-      if russian?
-        letters = []
-        russian_letters.each_char{ |x| letters << x }
-        letters
-      else
-        ('a'..'z').to_a
-      end
-    end
-
-    def output_letter(l)
-      (l == "all") ? all_field : l
-    end
-
-    def all_field
-      russian? ? 'все' : "all"
+      russian? ? /[а-яА-Я]/ : /[a-zA-Z]/
     end
 
     def default_letter
       russian? ? "а" : "a" # First 'a' is russian, second - english
     end
 
-    private
-      def russian_letters
-        "абвгдежзиклмнопрстуфхцчшэюя"
+    # used in view_helper
+    def letters_range
+      if russian?
+        letters = []
+        "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЭЮЯ".each_char{ |x| letters << x }
+        letters
+      else
+        ('A'..'Z').to_a
       end
+    end
+
+    # used in view_helper
+    def output_letter(l)
+      (l == "All") ? all_field : l
+    end
+
+    # used in view_helper
+    def all_field
+      russian? ? 'Все' : "All"
+    end
   end
 end

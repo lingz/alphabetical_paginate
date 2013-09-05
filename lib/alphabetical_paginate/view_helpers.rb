@@ -17,7 +17,7 @@ module AlphabeticalPaginate
         elsif params[:numbers]
           range = ["0-9"] + range
         end
-        range.unshift "all" if params[:include_all]
+        range.unshift "All" if params[:include_all]
         range.each do |l|
           value = params[:language].output_letter(l)
           if l == params[:currentField]
@@ -31,7 +31,7 @@ module AlphabeticalPaginate
       else
         params[:availableLetters].sort!
         params[:availableLetters] = params[:availableLetters][1..-1] + ["*"] if params[:availableLetters][0] == "*"
-        params[:availableLetters].unshift "all" if params[:include_all]
+        params[:availableLetters].unshift "All" if params[:include_all]
         params[:availableLetters] -= (1..9).to_a.map{|x| x.to_s} if !params[:numbers]
         params[:availableLetters] -= ["*"] if !params[:others]
         
