@@ -109,8 +109,8 @@ module AlphabeticalPaginate
     describe "#alphabetical_paginate" do
       before :each do
         @list = []
-        (["@!#"] + (0..9).to_a.map{|x| x.to_s} + ("a".."z").to_a).each do |x|
-          ("a".."y").to_a.each do |y|
+        (["@!#"] + (0..9).to_a.map{|x| x.to_s} + ("A".."Z").to_a).each do |x|
+          ("A".."Y").to_a.each do |y|
             @list << x + y
           end
         end
@@ -128,7 +128,7 @@ module AlphabeticalPaginate
       it "should include a numbers and others field" do
         index, params = @list.alpha_paginate(nil)
         pagination = alphabetical_paginate(params)
-        (["*"] + ["0-9"] + ("a".."z").to_a.map{|x|
+        (["*"] + ["0-9"] + ("A".."Z").to_a.map{|x|
           'data-letter="%s"'%x}).each do |x|
           pagination.should include x
         end
@@ -137,7 +137,7 @@ module AlphabeticalPaginate
       it "should default all values when necessary" do
         index, params = @list.alpha_paginate(nil, {})
         pagination = alphabetical_paginate(params)
-        (["*"] + ["0-9"] + ("a".."z").to_a.map{|x|
+        (["*"] + ["0-9"] + ("A".."Z").to_a.map{|x|
           'data-letter="%s"'%x}).each do |x|
           pagination.should include x
         end
@@ -146,11 +146,11 @@ module AlphabeticalPaginate
       it "should hide values that don't exist" do
         index, params = @list.alpha_paginate(nil){|x| x.word}
         pagination = alphabetical_paginate(params)
-        (("a".."y").to_a.map{|x|
+        (("A".."Y").to_a.map{|x|
           'data-letter="%s"'%x}).each do |x|
           pagination.should include x
         end
-        pagination.should_not include 'data-letter="z"', 'data-letter="*"',
+        pagination.should_not include 'data-letter="Z"', 'data-letter="*"',
           'data-letter="0-9"'
       end
 
@@ -168,7 +168,7 @@ module AlphabeticalPaginate
         index, params = @list.alpha_paginate(nil, {paginate_all: true,
                                              enumerate: true}){|x| x.word}
         pagination = alphabetical_paginate(params)
-        (["*"] + (0..9).to_a.map{|x| x.to_s} + ("a".."z").to_a.map{|x|
+        (["*"] + (0..9).to_a.map{|x| x.to_s} + ("A".."Z").to_a.map{|x|
           'data-letter="%s"'%x}).each do |x|
           pagination.should include x
         end
@@ -177,7 +177,7 @@ module AlphabeticalPaginate
       it "should include 'all' and '0-9' fields" do
         index, params = @list.alpha_paginate(nil, { include_all: true })
         pagination = alphabetical_paginate(params)
-        (["all", "0-9"].map{|x|
+        (["All", "0-9"].map{|x|
           'data-letter="%s"'%x}).each do |x|
           pagination.should include x
         end
@@ -187,8 +187,8 @@ module AlphabeticalPaginate
     describe "#alphabetical_paginate in russian characters" do
       before :each do
         @list = []
-        ("а".."я").to_a.each do |x|
-          ("а".."т").to_a.each do |y|
+        ("А".."Я").to_a.each do |x|
+          ("А".."Т").to_a.each do |y|
             @list << x + y
           end
         end
@@ -196,7 +196,7 @@ module AlphabeticalPaginate
           AlphaExample.new(x)
         end
         @russian_array = []
-        "абвгдежзиклмнопрстуфхцчшэюя".each_char{ |x| @russian_array << x }
+        "АБВГДЕЖЗИКЛМНОПРСТУФХЦЧШЭЮЯ".each_char{ |x| @russian_array << x }
       end
 
       it "should display russian characters through additional attribute(language)" do

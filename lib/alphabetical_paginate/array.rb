@@ -1,9 +1,9 @@
 # coding: utf-8
 class Array
   def alpha_paginate current_field, params = {enumerate:false, default_field: "a", 
-                                                paginate_all: false, numbers: true, include_all: true,
-                                                others: true, pagination_class: "pagination-centered",
-                                                js: true, support_language: :en}
+                                              paginate_all: false, numbers: true, include_all: true,
+                                              others: true, pagination_class: "pagination-centered",
+                                              js: true, support_language: :en}
     params[:paginate_all] ||= false
     params[:support_language] ||= :en
     params[:language] = AlphabeticalPaginate::Language.new(params[:support_language])
@@ -18,7 +18,8 @@ class Array
     if current_field == nil
       current_field = params[:default_field]
     end
-    all = params[:include_all] && current_field.downcase == "all"
+    current_field = current_field.mb_chars.downcase.to_s
+    all = params[:include_all] && current_field == "all"
 
     self.each do |x|
       field_val = block_given? ? yield(x).to_s : x.id.to_s
@@ -41,8 +42,8 @@ class Array
       end
     end
 
-    params[:availableLetters] = availableLetters.collect{|k,v| k.to_s}
-    params[:currentField] = current_field
+    params[:availableLetters] = availableLetters.collect{ |k,v| k.mb_chars.capitalize.to_s }
+    params[:currentField] = current_field.mb_chars.capitalize.to_s
     output.sort! {|x, y| block_given? ? (yield(x).to_s <=> yield(y).to_s) : (x.id.to_s <=> y.id.to_s) }
     return output, params
   end
