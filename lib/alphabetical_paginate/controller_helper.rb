@@ -55,8 +55,6 @@ module AlphabeticalPaginate
             output = self.where("LOWER(%s) REGEXP '^[^a-z0-9].*'" % [params[:db_field], current_field])
           end
         end
-        #output.sort! {|x, y| x.send(params[:db_field]) <=> y.send(params[:db_field])}
-        output.order("#{params[:db_field]} ASC")
       else
         availableLetters = {}
         self.find_each({batch_size: params[:batch_size]}) do |x|
@@ -83,7 +81,7 @@ module AlphabeticalPaginate
         output.sort! {|x, y| block_given? ? (yield(x).to_s <=> yield(y).to_s) : (x.id.to_s <=> y.id.to_s) }
       end
       params[:currentField] = current_field.mb_chars.capitalize.to_s
-      return output, params
+      return ((params[:db_mode] && params[:db_field]) ? output.order("#{params[:db_field]} ASC") : output), params
     end
   end
 end
