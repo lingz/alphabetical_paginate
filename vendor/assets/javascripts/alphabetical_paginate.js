@@ -32,8 +32,8 @@ $(function() {
       $(".pagination").html(img);
       //$.load(url + " #pagination_table");
       $.get(url, function(result) {
-          $(".pagination").html($(".pagination", result));
-          $("#pagination_table").html($("#pagination_table", result));
+          $(".pagination").html($(".pagination", result).html());
+          $("#pagination_table").html($("#pagination_table", result).html());
       });
       history.pushState(null, document.title, url);
   }
