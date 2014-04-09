@@ -43,8 +43,8 @@ $(function() {
     if (once) {
       $(".pagination").html(img);
       $.get(location.href, function(result) {
-        $(".pagination").html($(".pagination", result));
-          $("#pagination_table").html($("#pagination_table", result));
+        $(".pagination").html($(".pagination", result).html());
+          $("#pagination_table").html($("#pagination_table", result).html());
         });
       } else {
         once = true;
