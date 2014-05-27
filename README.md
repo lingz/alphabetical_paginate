@@ -64,7 +64,7 @@ end
 ### View
 You need to call `alphabetical_paginate` that we just generated in the controller (i.e `<%= alphabetical_paginate @alphaParams %>`) in the view, whereever you would like to render the pagination selector div. You also **must wrap the content you want paginated in a div with id="pagination_table"**.
 
-You can place as many `<%= alphabetical_paginate @alphaParams =>` as you wish on the page, if you want to render multiple pagination divs.
+You can place as many `<%= alphabetical_paginate @alphaParams %>` as you wish on the page, if you want to render multiple pagination divs.
 
 *An example is as such:*
 ```html
