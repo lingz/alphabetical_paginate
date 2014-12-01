@@ -49,6 +49,8 @@ module AlphabeticalPaginate
           # REGEXP runs always a full scan of the table!
           # For more information about LIKE and indeces have a look at
           # http://myitforum.com/cs2/blogs/jnelson/archive/2007/11/16/108354.aspx
+
+          # Also use some sanitization from ActiveRecord for the current field passed
           if can_go_quicker
             output = self.where("LOWER(%s) LIKE ?" % params[:db_field], current_field+'%')
           else
