@@ -12,6 +12,7 @@ $(function() {
 
   if (!handlers || -1 !== $.inArray(onNavbarClick, handlers.click)) {
       $(document).on("click", ".pagination.alpha a", onNavbarClick);
+      bindPopState();
   }
 
   function onNavbarClick(e) {
@@ -38,18 +39,20 @@ $(function() {
       history.pushState(null, document.title, url);
   }
 
-   // let navigate the browser throught the ajax history
-  $(window).bind("popstate", function() {
-    if (once) {
-      $(".pagination").html(img);
-      $.get(location.href, function(result) {
-        $(".pagination").html($(".pagination", result).html());
-          $("#pagination_table").html($("#pagination_table", result).html());
-        });
-      } else {
-        once = true;
-      }
-  });
+  // let navigate the browser throught the ajax history
+  function bindPopState(){
+    $(window).bind("popstate", function() {
+      if (once) {
+        $(".pagination").html(img);
+        $.get(location.href, function(result) {
+          $(".pagination").html($(".pagination", result).html());
+            $("#pagination_table").html($("#pagination_table", result).html());
+          });
+        } else {
+          once = true;
+        }
+    });
+  }
 
 
 });
