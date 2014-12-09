@@ -1,5 +1,6 @@
 $(function() {
-  var once = false;
+  // deal with old browsers
+  var hasHistory = !!(window.history && window.history.pushState);
 
   var img = "<img src='/assets/aloader.gif' class='loading'/>";
   // RAILS 3.0 USERS -> Please delete the above line and uncomment the bottom line
@@ -12,44 +13,52 @@ $(function() {
 
   if (!handlers || -1 !== $.inArray(onNavbarClick, handlers.click)) {
       $(document).on("click", ".pagination.alpha a", onNavbarClick);
+      if(hasHistory){
+        // bind the popstate
+        bindPopState(location.href);
+      }
   }
 
   function onNavbarClick(e) {
       e.preventDefault();
-      var url = location.href, 
-      letter = $(this).data("letter");
+      var url = location.href,
+          letter = $(this).data("letter");
       if (/letter/.test(url)) {
           url = url.replace(/letter=[^&]*/, "letter=" + letter);
-      } 
-      else {
+      } else {
           if (/\?/.test(url)) {
               url += "&letter=" + letter;
-          } 
-          else {
+          } else {
               url += "?letter=" + letter;
           }
       }
-      $(".pagination").html(img);
-      //$.load(url + " #pagination_table");
-      $.get(url, function(result) {
-          $(".pagination").html($(".pagination", result).html());
-          $("#pagination_table").html($("#pagination_table", result).html());
-      });
-      history.pushState(null, document.title, url);
+      loadPage(url);
+      // deal with browser support
+      if(hasHistory){
+        history.pushState(null, document.title, url);
+      }
   }
 
-   // let navigate the browser throught the ajax history
-  $(window).bind("popstate", function() {
-    if (once) {
-      $(".pagination").html(img);
-      $.get(location.href, function(result) {
-        $(".pagination").html($(".pagination", result).html());
-          $("#pagination_table").html($("#pagination_table", result).html());
-        });
-      } else {
-        once = true;
+  // let navigate the browser throught the ajax history
+  function bindPopState(initialUrl){
+    $(window).bind("popstate", function() {
+      var newUrl = location.href;
+      var diff = newUrl.replace(initialUrl, '');
+      // skip initial popstate
+      // skip anchor links (used for JS links)
+      if (diff !== '' && diff !== '#') {
+        loadPage(newUrl);
       }
-  });
+    });
+  }
+
+  function loadPage(url){
+    $(".pagination").html(img);
+    $.get(url, function (result) {
+      $(".pagination").html($(".pagination", result).html());
+      $("#pagination_table").html($("#pagination_table", result).html());
+    });
+  }
 
 
 });
