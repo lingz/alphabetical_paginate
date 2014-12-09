@@ -3,6 +3,7 @@ require 'alphabetical_paginate'
 
 module AlphabeticalPaginate
   describe Language do
+
     context "English language" do
       before(:all) do
         I18n.locale = :en

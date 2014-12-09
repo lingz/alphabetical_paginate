@@ -15,13 +15,21 @@ Some code was inspired by [will_paginate](https://github.com/mislav/will_paginat
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
+Add this line to your application's Gemfile:  
+```
     gem 'alphabetical_paginate'
+```
 
-And then execute:
-
+And then execute:  
+```bash
     $ bundle install
+```
+
+In case you're using the Rails 3.x assets pipeline remember to add it to your `production.rb` script:
+
+```rb
+  config.assets.precompile += %w( alphabetical_paginate.js )
+```
 
 ## Basic Setup
 

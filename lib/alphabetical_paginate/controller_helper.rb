@@ -26,9 +26,7 @@ module AlphabeticalPaginate
 
       output = []
 
-      if current_field == nil
-        current_field = params[:default_field]
-      end
+      current_field ||= params[:default_field]
       current_field = current_field.mb_chars.downcase.to_s
       all = params[:include_all] && current_field == "all"
 
@@ -42,18 +40,24 @@ module AlphabeticalPaginate
         if all
           output = self
         else
-          case current_field
-          when params[:language].letters_regexp
-            output = self.where("LOWER(%s) REGEXP '^%s.*'" % [params[:db_field], current_field])
-          when /[0-9]/
-            if params[:enumerate]
-              output = self.where("LOWER(%s) REGEXP '^%s.*'" % [params[:db_field], current_field])
-            else
-              output = self.where("LOWER(%s) REGEXP '^[0-9].*'" % [params[:db_field], current_field])
-            end
+          
+          # In this case we can speed up the search taking advantage of the indices
+          can_go_quicker = (current_field =~ params[:language].letters_regexp) || (current_field =~ /[0-9]/ && params[:enumerate])
+
+          
+          # Use LIKE the most as you can to take advantage of indeces on the field when available
+          # REGEXP runs always a full scan of the table!
+          # For more information about LIKE and indeces have a look at
+          # http://myitforum.com/cs2/blogs/jnelson/archive/2007/11/16/108354.aspx
+
+          # Also use some sanitization from ActiveRecord for the current field passed
+          if can_go_quicker
+            output = self.where("LOWER(%s) LIKE ?" % params[:db_field], current_field+'%')
           else
-            output = self.where("LOWER(%s) REGEXP '^[^a-z0-9].*'" % [params[:db_field], current_field])
+            regexp_to_check = current_field =~ /[0-9]/ ? '^[0-9]' : '^[^a-z0-9]'
+            output = self.where("LOWER(%s) REGEXP '%s.*'" % [params[:db_field], regexp_to_check])
           end
+          
         end
       else
         availableLetters = {}
