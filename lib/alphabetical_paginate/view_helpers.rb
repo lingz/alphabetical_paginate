@@ -20,7 +20,7 @@ module AlphabeticalPaginate
         range.unshift "All" if (options[:include_all] && !range.include?("All"))
         range.each do |l|
           
-          url = options[:scope].url_for(params.merge(:letter => l))
+          url = options[:scope].url_for(options.merge(:letter => l))
           
           value = options[:language].output_letter(l)
           if l == options[:currentField]
@@ -39,7 +39,7 @@ module AlphabeticalPaginate
         options[:availableLetters] -= ["*"] if !options[:others]
         
         options[:availableLetters].each do |l|
-          url = options[:scope].url_for(params.merge(:letter => l))
+          url = options[:scope].url_for(options.merge(:letter => l))
           value = options[:language].output_letter(l)
           links += content_tag(:li, link_to(value, url, "data-letter" => l), :class => ("active" if l == options[:currentField] ))
         end
