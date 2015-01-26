@@ -34,7 +34,11 @@ module AlphabeticalPaginate
       else
         options[:availableLetters].sort!
         options[:availableLetters] = options[:availableLetters][1..-1] + ["*"] if options[:availableLetters][0] == "*"
-        options[:availableLetters].unshift "All" if (options[:include_all] && !options[:availableLetters].include?("All"))
+        #Ensure that "All" is always at the front of the array
+        if options[:include_all]
+          options[:availableLetters].delete("All") if options[:availableLetters].include?("All")
+          options[:availableLetters].unshift("All")
+        end
         options[:availableLetters] -= (1..9).to_a.map{|x| x.to_s} if !options[:numbers]
         options[:availableLetters] -= ["*"] if !options[:others]
         
