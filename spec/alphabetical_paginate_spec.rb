@@ -13,6 +13,25 @@ class String
 	end
 end
 
+class RouterMock
+  def url_for(options)
+    '?letter='+options[:letter]
+  end
+end
+
+def main_app
+  RouterMock.new()
+end
+
+def link_to(value, url, options)
+  "<a href='#{url}' data-letter=\"#{options["data-letter"]}\">#{value}</a>"
+end
+
+def content_tag(type, el, html_options={})
+  "<#{type.to_s} class='#{html_options[:class] || ''}'>#{el}</#{type.to_s}>"
+end
+
+
 module AlphabeticalPaginate
 
   describe AlphabeticalPaginate do
