@@ -124,7 +124,7 @@ module AlphabeticalPaginate
 
     def find_available_letters(db_field)
       # safe the field (look for the ActiveRecord valid attributes)
-      if db_field.nil? || !self.attributes.has_key? db_field
+      if (db_field.nil? || !self.attributes.has_key? db_field)
         db_field = 'id'
       end
       criteria = "substr( %s, 1 , 1)" % db_field
