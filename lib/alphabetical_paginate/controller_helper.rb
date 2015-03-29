@@ -20,7 +20,6 @@ module AlphabeticalPaginate
       params[:js] = true if !params.has_key? :js
       params[:pagination_class] ||= "pagination-centered"
       params[:batch_size] ||= 500
-      # params[:default_field] ||= params[:include_all] ? "all" : params[:language].default_letter
       params[:db_mode] ||= false
       params[:db_field] ||= "id"
 
