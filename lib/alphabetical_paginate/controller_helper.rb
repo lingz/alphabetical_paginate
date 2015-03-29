@@ -26,18 +26,18 @@ module AlphabeticalPaginate
 
       output = []
       
-      if params[:include_all]
-        current_field ||= 'all'
-        all = current_field == "all"
-      end
-      
       if params[:db_mode]
         letters = nil
-        if !all && !params[:paginate_all]
+        if !params[:paginate_all]
           letters = filter_by_cardinality( find_available_letters(params[:db_field]) )
           set_default_field letters, params
         end
-        params[:availableLetters] = letters.any? ? letters : []
+        params[:availableLetters] = letters.nil? ? [] : letters
+      end
+
+      if params[:include_all]
+        current_field ||= 'all'
+        all = current_field == "all"
       end
 
       current_field ||= params[:default_field]
@@ -115,7 +115,7 @@ module AlphabeticalPaginate
       letters.collect do |letter, count|
         if count > 0
           letter = letter.mb_chars.capitalize.to_s
-          letter =~ /[a-z]/ ? letter : '*'
+          (letter =~ /[a-z]/).nil? ? '*' : letter
         else
           nil
         end
@@ -124,7 +124,7 @@ module AlphabeticalPaginate
 
     def find_available_letters(db_field)
       # safe the field (look for the ActiveRecord valid attributes)
-      if (db_field.nil? || !self.attributes.has_key? db_field)
+      if db_field.nil? || !self.attribute_names.include?(db_field)
         db_field = 'id'
       end
       criteria = "substr( %s, 1 , 1)" % db_field
