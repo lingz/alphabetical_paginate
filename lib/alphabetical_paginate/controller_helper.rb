@@ -115,11 +115,12 @@ module AlphabeticalPaginate
       letters.collect do |letter, count|
         if count > 0
           letter = letter.mb_chars.capitalize.to_s
-          (letter =~ /[a-z]/).nil? ? '*' : letter
+          (letter =~ /[A-Z]/).nil? ? '*' : letter
         else
           nil
         end
-      end
+      # repass again to filter duplicates *
+      end.uniq
     end
 
     def find_available_letters(db_field)
