@@ -104,7 +104,7 @@ module AlphabeticalPaginate
     def set_default_field(letters, params)
       if letters.any?
         params[:default_field] = letters.first
-      elsif @params[:include_all]
+      elsif params[:include_all]
         params[:default_field] = 'all'
       else
         params[:default_field] = params[:language].default_letter
@@ -112,7 +112,14 @@ module AlphabeticalPaginate
     end
 
     def filter_by_cardinality(letters)
-      letters.collect { |l, n| n > 0 ? l.mb_chars.capitalize.to_s : nil }
+      letters.collect do |letter, count|
+        if count > 0
+          letter = letter.mb_chars.capitalize.to_s
+          letter =~ /[a-z]/ ? letter : '*'
+        else
+          nil
+        end
+      end
     end
 
     def find_available_letters(db_field)
