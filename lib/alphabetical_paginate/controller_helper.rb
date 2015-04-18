@@ -10,7 +10,8 @@ module AlphabeticalPaginate
                                                 batch_size: 500, db_mode: false, 
                                                 db_field: "id", include_all: true,
                                                 js: true, support_language: :en,
-                                                bootstrap3: false}
+                                                bootstrap3: false, slugged_link: false,
+                                                slug_field: "slug"}
       params[:paginate_all] ||= false
       params[:support_language] ||= :en
       params[:language] = AlphabeticalPaginate::Language.new(params[:support_language])
@@ -22,6 +23,9 @@ module AlphabeticalPaginate
       params[:batch_size] ||= 500
       params[:db_mode] ||= false
       params[:db_field] ||= "id"
+      params[:slugged_link] ||= false
+      params[:slugged_link] = params[:slugged_link] && defined?(Babosa)
+      params[:slug_field] ||= "slug"
 
       output = []
       
@@ -72,12 +76,17 @@ module AlphabeticalPaginate
       else
         availableLetters = {}
         self.find_each({batch_size: params[:batch_size]}) do |x|
+          slug = eval("x.#{params[:slug_field]}") if params[:slugged_link]
+
           field_val = block_given? ? yield(x).to_s : x.id.to_s
           field_letter = field_val[0].mb_chars.downcase.to_s
+
           case field_letter
             when params[:language].letters_regexp
               availableLetters[field_letter] = true if !availableLetters.has_key? field_letter
-              output << x if all || (current_field =~ params[:language].letters_regexp && field_letter == current_field)
+              regexp = params[:slugged_link] ? params[:language].slugged_regexp : params[:language].letters_regexp
+              field = params[:slugged_link] ? slug : field_letter
+              output << x if all || (current_field =~ regexp && current_field == field)
             when /[0-9]/
               if params[:enumerate]
                 availableLetters[field_letter] = true if !availableLetters.has_key? field_letter
