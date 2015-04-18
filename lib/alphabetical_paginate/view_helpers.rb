@@ -43,7 +43,7 @@ module AlphabeticalPaginate
         options[:availableLetters] -= ["*"] if !options[:others]
         
         options[:availableLetters].each do |l|
-          url = options[:scope].url_for(options.merge(:letter => l))
+          url = options[:scope].url_for({:letter => l})
           value = options[:language].output_letter(l)
           links += content_tag(:li, link_to(value, url, "data-letter" => l), :class => ("active" if l == options[:currentField] ))
         end
