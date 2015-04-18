@@ -108,11 +108,11 @@ The available options are as follows:
 
 Key | Value | Default |Description
 --- | --- | --- | ---
-`:db_mode` | `Boolean` | `false` | Whether to activate low level SQL that are faster and more memory efficient (forces `:paginate_all` to enable)
+`:db_mode` | `Boolean` | `false` | Whether to activate low level SQL that are faster and more memory efficient
 `:db_field` | `String` | `id` | Required if `db_mode` is `true`. The field to paginate / sort by (on the same collection).
 `:enumerate` | `Boolean` | `false` | Whether you want the number field collapsed (all numbers go into `0`) or separate (`0`, `1`, `2`...).
 `:default_field` | `String` | `"a"` | Which field you want the page to default to on first load (`"0"`, `"a"`. `"*"`).
-`:paginate_all` | `Boolean` | `false` | Whether you want empty fields to still render in pagination.
+`:paginate_all` | `Boolean` | `false` | Whether you want empty fields to still render in pagination. If it's falsy and `db_mode` is thruty is will perform one more aggregation query: set it to true if performances matter.
 `:include_all` | `Boolean` | `true` | Whether you want `all` selector to be included in the pagination.
 `:numbers` | `Boolean` | `true` | Whether you want numbers to be included in the pagination at all, either collapsed, or expanded (depending on `:enumerate`).
 `:others` | `Boolean` | `true` | Whether you want all other characters (non alphanumeric) to be included in the pagination at all.
