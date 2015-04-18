@@ -20,11 +20,24 @@ module AlphabeticalPaginate
       params[:js] = true if !params.has_key? :js
       params[:pagination_class] ||= "pagination-centered"
       params[:batch_size] ||= 500
-      params[:default_field] ||= params[:include_all] ? "all" : params[:language].default_letter
       params[:db_mode] ||= false
       params[:db_field] ||= "id"
 
       output = []
+      
+      if params[:db_mode]
+        letters = nil
+        if !params[:paginate_all]
+          letters = filter_by_cardinality( find_available_letters(params[:db_field]) )
+          set_default_field letters, params
+        end
+        params[:availableLetters] = letters.nil? ? [] : letters
+      end
+
+      if params[:include_all]
+        current_field ||= 'all'
+        all = current_field == "all"
+      end
 
       current_field ||= params[:default_field]
       current_field = current_field.mb_chars.downcase.to_s
@@ -34,8 +47,6 @@ module AlphabeticalPaginate
         if !ActiveRecord::Base.connection.adapter_name.downcase.include? "mysql"
           raise "You need a mysql database to use db_mode with alphabetical_paginate"
         end
-        params[:paginate_all] = true
-        params[:availableLetters] = []
 
         if all
           output = self
@@ -57,7 +68,6 @@ module AlphabeticalPaginate
             regexp_to_check = current_field =~ /[0-9]/ ? '^[0-9]' : '^[^a-z0-9]'
             output = self.where("LOWER(%s) REGEXP '%s.*'" % [params[:db_field], regexp_to_check])
           end
-          
         end
       else
         availableLetters = {}
@@ -86,6 +96,39 @@ module AlphabeticalPaginate
       end
       params[:currentField] = current_field.mb_chars.capitalize.to_s
       return ((params[:db_mode] && params[:db_field]) ? output.order("#{params[:db_field]} ASC") : output), params
+    end
+
+    private
+
+    def set_default_field(letters, params)
+      if letters.any?
+        params[:default_field] = letters.first
+      elsif params[:include_all]
+        params[:default_field] = 'all'
+      else
+        params[:default_field] = params[:language].default_letter
+      end
+    end
+
+    def filter_by_cardinality(letters)
+      letters.collect do |letter, count|
+        if count > 0
+          letter = letter.mb_chars.capitalize.to_s
+          (letter =~ /[A-Z]/).nil? ? '*' : letter
+        else
+          nil
+        end
+      # repass again to filter duplicates *
+      end.uniq
+    end
+
+    def find_available_letters(db_field)
+      # safe the field (look for the ActiveRecord valid attributes)
+      if db_field.nil? || !self.attribute_names.include?(db_field)
+        db_field = 'id'
+      end
+      criteria = "substr( %s, 1 , 1)" % db_field
+      self.select(criteria).group(criteria).order(criteria).count(db_field)
     end
   end
 end
