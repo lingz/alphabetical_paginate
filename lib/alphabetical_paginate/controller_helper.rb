@@ -11,7 +11,7 @@ module AlphabeticalPaginate
                                                 db_field: "id", include_all: true,
                                                 js: true, support_language: :en,
                                                 bootstrap3: false, slugged_link: false,
-                                                slug_field: "slug"}
+                                                slug_field: "slug", all_as_link: true}
       params[:paginate_all] ||= false
       params[:support_language] ||= :en
       params[:language] = AlphabeticalPaginate::Language.new(params[:support_language])
@@ -26,6 +26,7 @@ module AlphabeticalPaginate
       params[:slugged_link] ||= false
       params[:slugged_link] = params[:slugged_link] && defined?(Babosa)
       params[:slug_field] ||= "slug"
+      params[:all_as_link] = true if !params.has_key? :all_as_link
 
       output = []
       

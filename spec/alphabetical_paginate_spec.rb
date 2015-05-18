@@ -15,7 +15,7 @@ end
 
 class RouterMock
   def url_for(options)
-    '?letter='+options[:letter]
+    options[:letter] ? '?letter='+options[:letter] : '/'
   end
 end
 
@@ -200,6 +200,18 @@ module AlphabeticalPaginate
           'data-letter="%s"'%x}).each do |x|
           pagination.should include x
         end
+      end
+
+      it "should include All as link" do
+        index, params = @list.alpha_paginate("A", { include_all: true })
+        pagination = alphabetical_paginate(params)
+        pagination.should include "href='?letter=All'"
+      end
+
+      it "should not include All as link" do
+        index, params = @list.alpha_paginate("A", { include_all: true, all_as_link: false })
+        pagination = alphabetical_paginate(params)
+        pagination.should_not include "href='?letter=All'"
       end
     end
 

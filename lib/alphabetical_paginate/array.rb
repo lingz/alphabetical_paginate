@@ -4,7 +4,7 @@ class Array
                                               paginate_all: false, numbers: true, include_all: true,
                                               others: true, pagination_class: "pagination-centered",
                                               js: true, support_language: :en, bootstrap3: false,
-                                              slugged_link: false, slug_field: "slug"}
+                                              slugged_link: false, slug_field: "slug", all_as_link: true}
     params[:paginate_all] ||= false
     params[:support_language] ||= :en
     params[:language] = AlphabeticalPaginate::Language.new(params[:support_language])
@@ -17,6 +17,7 @@ class Array
     params[:slugged_link] ||= false
     params[:slugged_link] = params[:slugged_link] && defined?(Babosa)
     params[:slug_field] ||= "slug"
+    params[:all_as_link] = true if !params.has_key? :all_as_link
 
     output = []
     availableLetters = {}

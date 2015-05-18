@@ -23,8 +23,12 @@ module AlphabeticalPaginate
           if options[:slugged_link] && (l =~ options[:language].letters_regexp || l == "All")
             link_letter = options[:language].slugged_letters[l]
           end
+          letter_options = { letter: link_letter }
+          if !options[:all_as_link] && (l == "All")
+            letter_options[:letter] = nil
+          end
 
-          url = options[:scope].url_for(:letter => link_letter)
+          url = options[:scope].url_for(letter_options)
           value = options[:language].output_letter(l)
           if l == options[:currentField]
             links += content_tag(:li, link_to(value, "#", "data-letter" => l), :class => "active")
@@ -50,8 +54,12 @@ module AlphabeticalPaginate
           if options[:slugged_link] && (l =~ options[:language].letters_regexp || l == "All")
             link_letter = options[:language].slugged_letters[l]
           end
+          letter_options = { letter: link_letter }
+          if !options[:all_as_link] && (l == "All")
+            letter_options[:letter] = nil
+          end
 
-          url = options[:scope].url_for(:letter => link_letter)
+          url = options[:scope].url_for(letter_options)
           value = options[:language].output_letter(l)
           links += content_tag(:li, link_to(value, url, "data-letter" => l), :class => ("active" if l == options[:currentField] ))
         end
