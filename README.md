@@ -164,3 +164,11 @@ Also, there is one line in vendor/assets/javascripts that needs to be changed fo
 # Support
 
 Please feel free to reach out and contact if you find the gem useful at all! Also, feel free to report / fix any bugs or add features.
+
+## To run tests
+
+    rspec
+
+## To publish the gem
+
+    rake release
