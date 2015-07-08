@@ -12,6 +12,7 @@ module AlphabeticalPaginate
                                                 js: true, support_language: :en,
                                                 bootstrap3: false, slugged_link: false,
                                                 slug_field: "slug", all_as_link: true}
+      params[:default_field] ||= "a"
       params[:paginate_all] ||= false
       params[:support_language] ||= :en
       params[:language] = AlphabeticalPaginate::Language.new(params[:support_language])
