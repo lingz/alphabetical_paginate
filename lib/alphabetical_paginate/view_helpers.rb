@@ -6,6 +6,7 @@ module AlphabeticalPaginate
       links = ""
       output += javascript_include_tag 'alphabetical_paginate' if options[:js] == true
       options[:scope] ||= main_app
+      url_for_options = options[:url_for] || {}
       
       if options[:paginate_all]
         range = options[:language].letters_range
@@ -28,7 +29,7 @@ module AlphabeticalPaginate
             letter_options[:letter] = nil
           end
 
-          url = options[:scope].url_for(letter_options)
+          url = options[:scope].url_for(url_for_options.merge(letter_options))
           value = options[:language].output_letter(l)
           if l == options[:currentField]
             links += content_tag(:li, link_to(value, "#", "data-letter" => l), :class => "active")
@@ -59,7 +60,7 @@ module AlphabeticalPaginate
             letter_options[:letter] = nil
           end
 
-          url = options[:scope].url_for(letter_options)
+          url = options[:scope].url_for(url_for_options.merge(letter_options))
           value = options[:language].output_letter(l)
           links += content_tag(:li, link_to(value, url, "data-letter" => l), :class => ("active" if l == options[:currentField] ))
         end
