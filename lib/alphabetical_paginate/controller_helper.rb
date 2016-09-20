@@ -4,10 +4,10 @@ module AlphabeticalPaginate
       base.extend(self)
     end
 
-    def alpha_paginate current_field, params = {enumerate:false, default_field: "a", 
+    def alpha_paginate current_field, params = {enumerate:false, default_field: "a",
                                                 paginate_all: false, numbers: true,
                                                 others: true, pagination_class: "pagination-centered",
-                                                batch_size: 500, db_mode: false, 
+                                                batch_size: 500, db_mode: false,
                                                 db_field: "id", include_all: true,
                                                 js: true, support_language: :en,
                                                 bootstrap3: false, slugged_link: false,
@@ -29,7 +29,7 @@ module AlphabeticalPaginate
       params[:all_as_link] = true if !params.has_key? :all_as_link
 
       output = []
-      
+
       if params[:db_mode]
         letters = nil
         if !params[:paginate_all]
@@ -56,11 +56,11 @@ module AlphabeticalPaginate
         if all
           output = self
         else
-          
+
           # In this case we can speed up the search taking advantage of the indices
           can_go_quicker = (current_field =~ params[:language].letters_regexp) || (current_field =~ /[0-9]/ && params[:enumerate])
 
-          
+
           # Use LIKE the most as you can to take advantage of indeces on the field when available
           # REGEXP runs always a full scan of the table!
           # For more information about LIKE and indeces have a look at
@@ -91,7 +91,7 @@ module AlphabeticalPaginate
             when /[0-9]/
               if params[:enumerate]
                 availableLetters[field_letter] = true if !availableLetters.has_key? field_letter
-                output << x if all || (current_field =~ /[0-9]/ && field_letter == current_field) 
+                output << x if all || (current_field =~ /[0-9]/ && field_letter == current_field)
               else
                 availableLetters['0-9'] = true if !availableLetters.has_key? 'numbers'
                 output << x if all || current_field == "0-9"
@@ -134,7 +134,8 @@ module AlphabeticalPaginate
 
     def find_available_letters(db_field)
       # safe the field (look for the ActiveRecord valid attributes)
-      if db_field.nil? || !self.attribute_names.include?(db_field)
+      # but allow explict table name prefixes in order to avoid 'field list is ambiguous' errors
+      if db_field.nil? || !self.attribute_names.include?(db_field.to_s.split('.').last)
         db_field = 'id'
       end
       criteria = "substr( %s, 1 , 1)" % db_field
