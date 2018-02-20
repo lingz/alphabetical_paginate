@@ -6,7 +6,7 @@ module AlphabeticalPaginate
       links = ""
       output += javascript_include_tag 'alphabetical_paginate' if options[:js] == true
       options[:scope] ||= main_app
-      
+
       if options[:paginate_all]
         range = options[:language].letters_range
         if options[:others]
@@ -48,7 +48,7 @@ module AlphabeticalPaginate
         end
         options[:availableLetters] -= (1..9).to_a.map{|x| x.to_s} if !options[:numbers]
         options[:availableLetters] -= ["*"] if !options[:others]
-        
+
         options[:availableLetters].each do |l|
           link_letter = l
           if options[:slugged_link] && (l =~ options[:language].letters_regexp || l == "All")
