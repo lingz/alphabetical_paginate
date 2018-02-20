@@ -144,6 +144,20 @@ module AlphabeticalPaginate
         pagination.should include "div", "pagination"
       end
 
+      it "should open and close the div tag" do
+        index, params = @list.alpha_paginate(nil)
+        pagination = alphabetical_paginate(params)
+        pagination.start_with?('<div').should be_truthy
+        pagination.end_with?('</div>').should be_truthy
+      end
+
+      it "should open and close the ul tag when run in bootstrap3 mode" do
+        index, params = @list.alpha_paginate(nil)
+        pagination = alphabetical_paginate(params.merge(bootstrap3: true))
+        pagination.start_with?('<ul').should be_truthy
+        pagination.end_with?('</ul>').should be_truthy
+      end
+
       it "should include a numbers and others field" do
         index, params = @list.alpha_paginate(nil)
         pagination = alphabetical_paginate(params)
