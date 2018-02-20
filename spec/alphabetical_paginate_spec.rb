@@ -55,7 +55,7 @@ module AlphabeticalPaginate
           enumerate: false,
         }
         collection, params = @list.alpha_paginate("b")
-        collection.to_s.should == 
+        collection.to_s.should ==
           expectedCollection.to_s
         params.to_s.should include
           expectedParams.to_s
@@ -73,7 +73,7 @@ module AlphabeticalPaginate
         collection, params = @list.alpha_paginate("b") do |x|
           x.word
         end
-        collection.to_s.should == 
+        collection.to_s.should ==
           expectedCollection.to_s
         params.to_s.should include
           expectedParams.to_s
@@ -100,7 +100,7 @@ module AlphabeticalPaginate
           enumerate: false,
         }
         collection, params = @list.alpha_paginate("с", { support_language: :ru })
-        collection.to_s.should == 
+        collection.to_s.should ==
           expectedCollection.to_s
         params.to_s.should include
           expectedParams.to_s
@@ -116,7 +116,7 @@ module AlphabeticalPaginate
           enumerate: false,
         }
         collection, params = @list.alpha_paginate(nil, { include_all: false, support_language: :ru })
-        collection.to_s.should == 
+        collection.to_s.should ==
           expectedCollection.to_s
         params.to_s.should include
           expectedParams.to_s
@@ -142,6 +142,20 @@ module AlphabeticalPaginate
         index, params = @list.alpha_paginate(nil)
         pagination = alphabetical_paginate(params)
         pagination.should include "div", "pagination"
+      end
+
+      it "should open and close the div tag" do
+        index, params = @list.alpha_paginate(nil)
+        pagination = alphabetical_paginate(params)
+        pagination.start_with?('<div').should be_truthy
+        pagination.end_with?('</div>').should be_truthy
+      end
+
+      it "should open and close the ul tag when run in bootstrap3 mode" do
+        index, params = @list.alpha_paginate(nil)
+        pagination = alphabetical_paginate(params.merge(bootstrap3: true))
+        pagination.start_with?('<ul').should be_truthy
+        pagination.end_with?('</ul>').should be_truthy
       end
 
       it "should include a numbers and others field" do
