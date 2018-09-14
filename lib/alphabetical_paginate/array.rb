@@ -31,29 +31,29 @@ class Array
 
       field_val = block_given? ? yield(x).to_s : x.id.to_s
       field_letter = field_val[0].mb_chars.downcase.to_s
+      if  ["A","B","C","Č","Ć","D","Dž","E","F","G","H","I","J","K","L","Lj","M","N","Nj","O","P","Q","R","S","Š","T","U","V","W","X","Y","Z","Ž"].include?(field_letter.upcase)
+        availableLetters[field_letter] = true if !availableLetters.has_key? field_letter
+        field = params[:slugged_link] ? slug : field_letter
 
-      case field_letter
-        when params[:language].letters_regexp
+        output << x if all || (current_field == field)
+      elsif /[0-9]/.match(field_letter)
+        if params[:enumerate]
           availableLetters[field_letter] = true if !availableLetters.has_key? field_letter
-          regexp = params[:slugged_link] ? params[:language].slugged_regexp : params[:language].letters_regexp
-          field = params[:slugged_link] ? slug : field_letter
-          output << x if all || (current_field =~ regexp && current_field == field)
-        when /[0-9]/
-          if params[:enumerate]
-            availableLetters[field_letter] = true if !availableLetters.has_key? field_letter
-            output << x if all || (current_field =~ /[0-9]/ && field_letter == current_field)
-          else
-            availableLetters['0-9'] = true if !availableLetters.has_key? 'numbers'
-            output << x if all || current_field == "0-9"
-          end
+          output << x if all || (current_field =~ /[0-9]/ && field_letter == current_field)
         else
-          availableLetters['*'] = true if !availableLetters.has_key? 'other'
-          output << x if all || current_field == "*"
+          availableLetters['0-9'] = true if !availableLetters.has_key? 'numbers'
+          output << x if all || current_field == "0-9"
+        end
+      else
+        availableLetters['*'] = true if !availableLetters.has_key? 'other'
+        output << x if all || current_field == "*"
       end
     end
 
     params[:availableLetters] = availableLetters.collect{ |k,v| k.mb_chars.capitalize.to_s }
     params[:currentField] = current_field.mb_chars.capitalize.to_s
+    params[:availableLetters] = params[:availableLetters][0..1] + params[:availableLetters][2..params[:availableLetters].length].sort.to_a
+
     output.sort! {|x, y| block_given? ? (yield(x).to_s <=> yield(y).to_s) : (x.id.to_s <=> y.id.to_s) }
     return output, params
   end
