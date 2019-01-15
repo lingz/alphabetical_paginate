@@ -139,7 +139,7 @@ module AlphabeticalPaginate
       if db_field.nil? || !self.attribute_names.include?(db_field.to_s.split('.').last)
         db_field = 'id'
       end
-      criteria = "substr( %s, 1 , 1)" % db_field
+      criteria = Arel.sql("substr( %s, 1 , 1)" % db_field)
       self.select(criteria).group(criteria).order(criteria).count(db_field)
     end
   end
